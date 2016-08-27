@@ -5,4 +5,6 @@ package com.bartovapps.bucketdrop;
  */
 public class Test {
     String someString;
+
 }
+

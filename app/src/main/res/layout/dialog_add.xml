@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_dialog_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_dialog_title"
+        android:layout_marginBottom="@dimen/margin_add_drop_text"
+        android:layout_marginTop="@dimen/margin_add_drop_text"
+        android:textSize="@dimen/add_drop_text_size"/>
+
+
+    <ImageButton
+        android:id="@+id/ib_close"
+        android:background="@null"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/tv_dialog_title"
+        android:layout_alignBottom="@id/tv_dialog_title"
+        android:src="@drawable/ic_close" />
+
+    <EditText
+        android:id="@+id/et_add_a_drop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_dialog_title"
+        android:hint="@string/hint_what_it_is"
+        android:padding="@dimen/et_dialog_padding"
+        android:inputType="textVisiblePassword"
+        android:singleLine="true"
+        android:background="@drawable/dialog_et_shape"/>
+
+    <DatePicker
+        android:id="@+id/bdv_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_add_a_drop"
+        style="@android:style/Widget.DatePicker">
+
+
+    </DatePicker>
+
+    <Button
+        android:id="@+id/bt_add_drop_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bdv_date"
+        android:text="@string/add_it"
+        android:textAllCaps="false"
+        android:textColor="@color/add_drop_color"
+        android:background="@drawable/bg_bt_add_drop"/>
+
+
+</RelativeLayout>

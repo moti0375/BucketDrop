@@ -3,7 +3,6 @@ package com.bartovapps.bucketdrop;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
@@ -17,32 +16,32 @@ import com.bumptech.glide.Glide;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
+import widgets.BucketRecyclerView;
 
 public class ActivityMain extends AppCompatActivity implements View.OnClickListener{
 
     private static final String LOG_TAG = ActivityMain.class.getSimpleName();
     Toolbar mToolbar;
     Button btAddDrop;
-    RecyclerView recyclerView;
+    BucketRecyclerView recyclerView;
     Realm mRealm;
     RealmResults<Drop> mRealmResults;
     DropsAdapter mAdapter;
+    View mEmptyView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
         mRealm = Realm.getDefaultInstance();
-        initBackgroundImage();
+        mRealmResults = mRealm.where(Drop.class).findAllAsync();
         initViews();
+        initBackgroundImage();
     }
 
 
     @Override
     protected void onStart() {
         super.onStart();
-        mRealmResults = mRealm.where(Drop.class).findAllAsync();
         mRealmResults.addChangeListener(callback);
     }
 
@@ -53,11 +52,18 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initViews() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+
         btAddDrop = (Button) findViewById(R.id.bt_add_drop);
         btAddDrop.setOnClickListener(this);
-        recyclerView = (RecyclerView) findViewById(R.id.rv_drops);
+        mEmptyView = findViewById(R.id.empty_drops_layout);
+
+        recyclerView = (BucketRecyclerView) findViewById(R.id.rv_drops);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
+        recyclerView.hideIfEmpty(mToolbar);
+        recyclerView.shoIfEmpty(mEmptyView);
         mAdapter = new DropsAdapter(this, mRealmResults);
         recyclerView.setAdapter(mAdapter);
     }

@@ -2,6 +2,7 @@ package com.bartovapps.bucketdrop.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import io.realm.RealmResults;
  * Created by BartovMoti on 08/31/16.
  */
 public class DropsAdapter extends RecyclerView.Adapter<DropsAdapter.DropsViewHolder> {
+
+    private final static String TAG = DropsAdapter.class.getSimpleName();
 
     LayoutInflater mInflater;
     RealmResults<Drop> mItems;
@@ -36,9 +39,10 @@ public class DropsAdapter extends RecyclerView.Adapter<DropsAdapter.DropsViewHol
     }
 
     public void updateDrops(RealmResults<Drop> results){
+        Log.i(TAG, "updateDrops");
+
         this.mItems = results;
         notifyDataSetChanged();
-
     }
 
     @Override

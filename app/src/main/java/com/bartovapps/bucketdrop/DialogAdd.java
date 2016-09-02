@@ -17,7 +17,6 @@ import com.bartovapps.bucketdrop.beans.Drop;
 import java.util.GregorianCalendar;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 
 /**
  * Created by BartovMoti on 08/29/16.
@@ -76,8 +75,6 @@ public class DialogAdd extends DialogFragment implements View.OnClickListener {
         long now = System.currentTimeMillis();
 
         Drop drop = new Drop(goal, now, 0, false);
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(getActivity()).build();
-        Realm.setDefaultConfiguration(realmConfiguration);
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         realm.copyToRealm(drop);

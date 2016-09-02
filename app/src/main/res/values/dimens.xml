@@ -9,4 +9,7 @@
     <dimen name="margin_add_drop_text">36dp</dimen>
     <dimen name="add_drop_text_size">18sp</dimen>
     <dimen name="et_dialog_padding">16dp</dimen>
+    <dimen name="row_item_padding">22dp</dimen>
+    <dimen name="row_item_icon_size">12dp</dimen>
+    <dimen name="row_item_icon_margin">22dp</dimen>
 </resources>

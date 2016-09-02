@@ -12,4 +12,5 @@
     <dimen name="row_item_padding">22dp</dimen>
     <dimen name="row_item_icon_size">12dp</dimen>
     <dimen name="row_item_icon_margin">22dp</dimen>
+    <dimen name="footer_button_margin">128dp</dimen>
 </resources>

@@ -14,12 +14,13 @@ import com.bartovapps.bucketdrop.beans.Drop;
 
 import java.util.ArrayList;
 
+import io.realm.Realm;
 import io.realm.RealmResults;
 
 /**
  * Created by BartovMoti on 08/31/16.
  */
-public class DropsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class DropsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements SwipeListener {
 
     private final static String TAG = DropsAdapter.class.getSimpleName();
     public static final int NORMAL_TYPE = 10;
@@ -28,10 +29,14 @@ public class DropsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     LayoutInflater mInflater;
     RealmResults<Drop> mItems;
+    AdapterEventListener mEventListener;
+    Realm mRealm;
 
-    public DropsAdapter(Context context, RealmResults<Drop> data) {
+    public DropsAdapter(Context context, Realm realm, RealmResults<Drop> data, AdapterEventListener listener) {
         mInflater = LayoutInflater.from(context);
         updateDrops(data);
+        mEventListener = listener;
+        mRealm = realm;
     }
 
     private ArrayList<String> initValues() {
@@ -67,7 +72,7 @@ public class DropsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if(holder instanceof DropsViewHolder){
+        if (holder instanceof DropsViewHolder) {
             DropsViewHolder dropsViewHolder = (DropsViewHolder) holder;
             Drop drop = mItems.get(position);
             dropsViewHolder.tvRowItemDrop.setText(drop.getGoal());
@@ -76,7 +81,21 @@ public class DropsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return mItems.size() + 1;
+        if(mItems == null || mItems.isEmpty()){
+            return 0;
+        }else{
+            return mItems.size() + 1;
+        }
+    }
+
+    @Override
+    public void onSwipe(int position) {
+        if(position < mItems.size()){
+            mRealm.beginTransaction();
+            mItems.get(position).deleteFromRealm();
+            mRealm.commitTransaction();
+            notifyItemRemoved(position);
+        }
     }
 
     public static class DropsViewHolder extends RecyclerView.ViewHolder {
@@ -100,15 +119,25 @@ public class DropsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
-    public static class FooterHolder extends RecyclerView.ViewHolder {
+    public class FooterHolder extends RecyclerView.ViewHolder {
         Button button;
 
         public FooterHolder(View itemView) {
             super(itemView);
             button = (Button) itemView.findViewById(R.id.tb_footer_button);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mEventListener.onClick();
+                }
+            });
         }
+
 
     }
 
+    public interface AdapterEventListener {
+        public void onClick();
+    }
 
 }

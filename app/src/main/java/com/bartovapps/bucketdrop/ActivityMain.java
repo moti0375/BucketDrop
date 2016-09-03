@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import com.bartovapps.bucketdrop.adapters.Divider;
 import com.bartovapps.bucketdrop.adapters.DropsAdapter;
+import com.bartovapps.bucketdrop.adapters.SimpleTouchCallback;
 import com.bartovapps.bucketdrop.beans.Drop;
 import com.bumptech.glide.Glide;
 
@@ -19,7 +21,7 @@ import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import widgets.BucketRecyclerView;
 
-public class ActivityMain extends AppCompatActivity implements View.OnClickListener{
+public class ActivityMain extends AppCompatActivity implements View.OnClickListener, DropsAdapter.AdapterEventListener{
 
     private static final String LOG_TAG = ActivityMain.class.getSimpleName();
     Toolbar mToolbar;
@@ -66,8 +68,11 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
         recyclerView.setLayoutManager(manager);
         recyclerView.hideIfEmpty(mToolbar);
         recyclerView.shoIfEmpty(mEmptyView);
-        mAdapter = new DropsAdapter(this, mRealmResults);
+        mAdapter = new DropsAdapter(this, mRealm, mRealmResults, this);
         recyclerView.setAdapter(mAdapter);
+        SimpleTouchCallback touchCallback = new SimpleTouchCallback(mAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(touchCallback);
+        touchHelper.attachToRecyclerView(recyclerView);
     }
 
     private void initBackgroundImage() {
@@ -99,4 +104,9 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
             mAdapter.updateDrops(mRealmResults);
         }
     };
+
+    @Override
+    public void onClick() {
+        showDialogAdd();
+    }
 }

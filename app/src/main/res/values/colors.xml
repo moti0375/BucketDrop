@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="green">#0ca87a</color>
     <color name="light_blue">#6dcff6</color>
+    <color name="dark_blue">#211543</color>
     <color name="purple">#241543</color>
     <color name="white">#FFF</color>
     <color name="row_item_dark">#BC4D0B5E</color>

@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bartovapps.bucketdrop.adapters.Divider;
 import com.bartovapps.bucketdrop.adapters.DropsAdapter;
 import com.bartovapps.bucketdrop.beans.Drop;
 import com.bumptech.glide.Glide;
@@ -60,6 +61,7 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
         mEmptyView = findViewById(R.id.empty_drops_layout);
 
         recyclerView = (BucketRecyclerView) findViewById(R.id.rv_drops);
+        recyclerView.addItemDecoration(new Divider(this, LinearLayoutManager.VERTICAL));
         LinearLayoutManager manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
         recyclerView.hideIfEmpty(mToolbar);

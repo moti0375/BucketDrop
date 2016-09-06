@@ -4,4 +4,5 @@
     <string name="add_dialog_title">Add a drop</string>
     <string name="hint_what_it_is">What it is?</string>
     <string name="add_it">Add it</string>
+    <string name="mark_completed">Mark Completed</string>
 </resources>

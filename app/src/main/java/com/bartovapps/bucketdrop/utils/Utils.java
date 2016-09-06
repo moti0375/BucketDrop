@@ -1,5 +1,7 @@
 package com.bartovapps.bucketdrop.utils;
 
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.View;
 
 import java.util.List;
@@ -19,6 +21,20 @@ public class Utils {
         for(View view: views){
             view.setVisibility(View.GONE);
         }
+    }
+
+    public static boolean moreThanJelliBean(){
+        return Build.VERSION.SDK_INT > 15;
+
+    }
+    public static void setBackground(View view, Drawable drawable){
+
+        if(moreThanJelliBean()){
+            view.setBackground(drawable);
+        }else{
+            view.setBackgroundDrawable(drawable);
+        }
+
     }
 
 }

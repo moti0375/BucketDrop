@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bartovapps.bucketdrop.adapters.CompleteListener;
 import com.bartovapps.bucketdrop.adapters.Divider;
 import com.bartovapps.bucketdrop.adapters.DropsAdapter;
 import com.bartovapps.bucketdrop.adapters.SimpleTouchCallback;
@@ -21,7 +22,7 @@ import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import widgets.BucketRecyclerView;
 
-public class ActivityMain extends AppCompatActivity implements View.OnClickListener, DropsAdapter.AdapterEventListener{
+public class ActivityMain extends AppCompatActivity implements View.OnClickListener, DropsAdapter.AdapterEventListener, DropsAdapter.MarkListener{
 
     private static final String LOG_TAG = ActivityMain.class.getSimpleName();
     Toolbar mToolbar;
@@ -68,7 +69,7 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
         recyclerView.setLayoutManager(manager);
         recyclerView.hideIfEmpty(mToolbar);
         recyclerView.shoIfEmpty(mEmptyView);
-        mAdapter = new DropsAdapter(this, mRealm, mRealmResults, this);
+        mAdapter = new DropsAdapter(this, mRealm, mRealmResults, this, this);
         recyclerView.setAdapter(mAdapter);
         SimpleTouchCallback touchCallback = new SimpleTouchCallback(mAdapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(touchCallback);
@@ -109,4 +110,27 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
     public void onClick() {
         showDialogAdd();
     }
+
+    @Override
+    public void onMark(int position) {
+        showCheckedDialog(position);
+    }
+
+    private void showCheckedDialog(int position) {
+        DialogChecked dialogChecked = new DialogChecked();
+        dialogChecked.setCompleteListener(completeListener);
+        Bundle bundle = new Bundle();
+        bundle.putInt("pos", position);
+        dialogChecked.setArguments(bundle);
+        dialogChecked.show(getSupportFragmentManager(), "Mark");
+    }
+
+    CompleteListener completeListener = new CompleteListener() {
+        @Override
+        public void onComplete(int position) {
+            mAdapter.markAsCompleted(position);
+            Toast.makeText(ActivityMain.this, "Item " + position + " completed", Toast.LENGTH_SHORT).show();
+        }
+    };
+
 }

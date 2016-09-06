@@ -8,7 +8,7 @@
     android:clickable="true">
 
     <ImageView
-        android:id="@+id/row_item_icon"
+        android:id="@+id/iv_row_item_icon"
         android:layout_width="@dimen/row_item_icon_size"
         android:layout_height="@dimen/row_item_icon_size"
         android:src="@drawable/ic_drop"

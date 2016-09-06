@@ -9,5 +9,6 @@
     <color name="purple">#241543</color>
     <color name="white">#FFF</color>
     <color name="row_item_dark">#BC4D0B5E</color>
+    <color name="row_item_completed">#EC4D0B5E</color>
     <color name="row_item_light">#554D0B5E</color>
 </resources>

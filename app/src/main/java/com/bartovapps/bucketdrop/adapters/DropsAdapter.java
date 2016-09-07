@@ -3,6 +3,7 @@ package com.bartovapps.bucketdrop.adapters;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,9 @@ import android.widget.TextView;
 import com.bartovapps.bucketdrop.R;
 import com.bartovapps.bucketdrop.beans.Drop;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -87,6 +90,11 @@ public class DropsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }else{
                 dropsViewHolder.mIcon.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_drop));
             }
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(drop.getWhen());
+            dropsViewHolder.setWhen(drop.getWhen());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         }
     }
 
@@ -142,6 +150,10 @@ public class DropsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         @Override
         public void onClick(View view) {
             mMarkListener.onMark(getAdapterPosition());
+        }
+
+        public void setWhen(long when) {
+            tvWhen.setText(DateUtils.getRelativeTimeSpanString(when, System.currentTimeMillis(), DateUtils.DAY_IN_MILLIS, DateUtils.FORMAT_ABBREV_ALL));
         }
     }
 

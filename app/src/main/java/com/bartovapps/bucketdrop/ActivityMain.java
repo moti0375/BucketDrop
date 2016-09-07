@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -53,6 +55,35 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
     protected void onStop() {
         super.onStop();
         mRealmResults.removeChangeListeners();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int actionId = item.getItemId();
+
+        switch (actionId){
+            case R.id.action_add:
+                showDialogAdd();
+                break;
+            case R.id.action_most_time_left:
+                break;
+            case R.id.action_least_time_left:
+                break;
+            case R.id.action_completed:
+                break;
+            case R.id.action_incomplete:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+
     }
 
     private void initViews() {

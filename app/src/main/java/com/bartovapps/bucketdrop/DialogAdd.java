@@ -11,10 +11,11 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.bartovapps.bucketdrop.beans.Drop;
 
-import java.util.GregorianCalendar;
+import java.util.Calendar;
 
 import io.realm.Realm;
 
@@ -63,18 +64,28 @@ public class DialogAdd extends DialogFragment implements View.OnClickListener {
                 addAction();
                 break;
             case R.id.ib_close:
-                dismiss();
                 break;
         }
-
+        dismiss();
     }
 
     private void addAction() {
         String goal = etAddDrop.getText().toString();
-        GregorianCalendar date = new GregorianCalendar(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
+        String date = datePicker.getDayOfMonth() + "/" + datePicker.getMonth() + "/" + datePicker.getYear();
+        Toast.makeText(getContext(), "Date selected: " + date, Toast.LENGTH_SHORT).show();
         long now = System.currentTimeMillis();
 
-        Drop drop = new Drop(goal, now, 0, false);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
+        calendar.set(Calendar.MONTH, datePicker.getMonth());
+        calendar.set(Calendar.YEAR, datePicker.getYear());
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+
+        Drop drop = new Drop(goal, now, calendar.getTimeInMillis(), false);
+
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         realm.copyToRealm(drop);
